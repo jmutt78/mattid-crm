@@ -25,29 +25,29 @@ export class GoalResolver {
     return goal;
   }
 
-//   @Mutation(() => Goal, { nullable: true })
-//   async updateGoal(
-//     @Arg("id") id: number,
-//     @Arg("title", () => String, { nullable: true }) title: string,
-//     @Ctx() { em }: MyContext
-//   ): Promise<Goal | null> {
-//     const goal = await em.findOne(Goal, { id });
-//     if (!goal) {
-//       return null;
-//     }
-//     if (typeof title !== "undefined") {
-//       goal.title = title;
-//       await em.persistAndFlush(goal);
-//     }
-//     return goal;
-//   }
+  @Mutation(() => Goal, { nullable: true })
+  async updateGoal(
+    @Arg("id") id: number,
+    @Arg("title", () => String, { nullable: true }) title: string,
+    @Ctx() { em }: MyContext
+  ): Promise<Goal | null> {
+    const goal = await em.findOne(Goal, { id });
+    if (!goal) {
+      return null;
+    }
+    if (typeof title !== "undefined") {
+      goal.title = title;
+      await em.persistAndFlush(goal);
+    }
+    return goal;
+  }
 
-//   @Mutation(() => Boolean)
-//   async deleteGoal(
-//     @Arg("id") id: number,
-//     @Ctx() { em }: MyContext
-//   ): Promise<boolean> {
-//     await em.nativeDelete(Goal, { id });
-//     return true;
-//   }
+  @Mutation(() => Boolean)
+  async deleteGoal(
+    @Arg("id") id: number,
+    @Ctx() { em }: MyContext
+  ): Promise<boolean> {
+    await em.nativeDelete(Goal, { id });
+    return true;
+  }
 }

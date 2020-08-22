@@ -38,6 +38,25 @@ let GoalResolver = class GoalResolver {
             return goal;
         });
     }
+    updateGoal(id, title, { em }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const goal = yield em.findOne(Goal_1.Goal, { id });
+            if (!goal) {
+                return null;
+            }
+            if (typeof title !== "undefined") {
+                goal.title = title;
+                yield em.persistAndFlush(goal);
+            }
+            return goal;
+        });
+    }
+    deleteGoal(id, { em }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield em.nativeDelete(Goal_1.Goal, { id });
+            return true;
+        });
+    }
 };
 __decorate([
     type_graphql_1.Query(() => [Goal_1.Goal]),
@@ -61,6 +80,23 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], GoalResolver.prototype, "createGoal", null);
+__decorate([
+    type_graphql_1.Mutation(() => Goal_1.Goal, { nullable: true }),
+    __param(0, type_graphql_1.Arg("id")),
+    __param(1, type_graphql_1.Arg("title", () => String, { nullable: true })),
+    __param(2, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:returntype", Promise)
+], GoalResolver.prototype, "updateGoal", null);
+__decorate([
+    type_graphql_1.Mutation(() => Boolean),
+    __param(0, type_graphql_1.Arg("id")),
+    __param(1, type_graphql_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], GoalResolver.prototype, "deleteGoal", null);
 GoalResolver = __decorate([
     type_graphql_1.Resolver()
 ], GoalResolver);
