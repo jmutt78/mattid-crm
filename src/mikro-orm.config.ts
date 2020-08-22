@@ -9,8 +9,10 @@ export default {
     path: path.join(__dirname, "./migrations"),
     pattern: /^[\w-]+\d+\.[tj]s$/,
   },
-  entities: [Post],
-  dbName: "lireddit",
+  entities: [Goal],
+  dbName: "mattid",
+  user: 'justinm',
+  password: 'Deeder1432!',
   type: "postgresql",
   debug: !__prod__,
 } as Parameters<typeof MikroORM.init>[0];
