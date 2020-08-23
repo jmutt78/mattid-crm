@@ -1,4 +1,4 @@
-  
+import { User } from './entities/User'; 
 import { Goal } from "./entities/Goal";
 import { __prod__ } from "./constants";
 import { MikroORM } from "@mikro-orm/core";
@@ -9,7 +9,7 @@ export default {
     path: path.join(__dirname, "./migrations"),
     pattern: /^[\w-]+\d+\.[tj]s$/,
   },
-  entities: [Goal],
+  entities: [Goal, User],
   dbName: "mattid",
   user: 'justinm',
   password: 'Deeder1432!',
