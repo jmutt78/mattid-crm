@@ -1,7 +1,7 @@
-import { Resolver, Query, Ctx, Arg, Int, Mutation } from "type-graphql";
+import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
 import { Goal } from "../entities/Goal";
 import { MyContext } from "../types";
-import { idText } from "typescript";
+
 
 @Resolver()
 export class GoalResolver {
