@@ -5,3 +5,9 @@ Creating a mutation or query
     -run yarn gen
     -gen will generate the hook
     -Then we use the custom hook
+
+    Start Frontend /Users/justinmcintosh/Projects/mattid-crm/web `yarn dev`
+    Start Server /Users/justinmcintosh/Projects/mattid-crm/server `yarn dev`
+    Watch Server /Users/justinmcintosh/Projects/mattid-crm/server `yarn watch`
+
+

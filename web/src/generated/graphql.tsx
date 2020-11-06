@@ -146,6 +146,17 @@ export type RegisterMutation = (
   ) }
 );
 
+export type GoalsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GoalsQuery = (
+  { __typename?: 'Query' }
+  & { goals: Array<(
+    { __typename?: 'Goal' }
+    & Pick<Goal, 'id' | 'title' | 'createdAt' | 'updatedAt'>
+  )> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -205,6 +216,20 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const GoalsDocument = gql`
+    query Goals {
+  goals {
+    id
+    title
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useGoalsQuery(options: Omit<Urql.UseQueryArgs<GoalsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GoalsQuery>({ query: GoalsDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {
