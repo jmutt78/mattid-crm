@@ -11,3 +11,15 @@ Creating a mutation or query
     Watch Server /Users/justinmcintosh/Projects/mattid-crm/server `yarn watch`
 
 
+Creating Migration on the server: 
+-Create or update the entity 
+-run yarn create:migration
+
+
+Server Start: 
+-start the postgress server 
+-2 termals 
+-both server files 
+-yarn dev
+-yarn watch 
+
