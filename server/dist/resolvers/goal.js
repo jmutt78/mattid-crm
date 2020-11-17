@@ -25,76 +25,71 @@ exports.GoalResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Goal_1 = require("../entities/Goal");
 let GoalResolver = class GoalResolver {
-    goals({ em }) {
-        return em.find(Goal_1.Goal, {});
-    }
-    goal(id, { em }) {
-        return em.findOne(Goal_1.Goal, { id });
-    }
-    createGoal(title, { em }) {
+    posts() {
         return __awaiter(this, void 0, void 0, function* () {
-            const goal = em.create(Goal_1.Goal, { title });
-            yield em.persistAndFlush(goal);
-            return goal;
+            return Goal_1.Goal.find();
         });
     }
-    updateGoal(id, title, { em }) {
+    post(id) {
+        return Goal_1.Goal.findOne(id);
+    }
+    createGoal(title) {
         return __awaiter(this, void 0, void 0, function* () {
-            const goal = yield em.findOne(Goal_1.Goal, { id });
-            if (!goal) {
+            return Goal_1.Goal.create({ title }).save();
+        });
+    }
+    updateGoal(id, title) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const post = yield Goal_1.Goal.findOne(id);
+            if (!post) {
                 return null;
             }
             if (typeof title !== "undefined") {
-                goal.title = title;
-                yield em.persistAndFlush(goal);
+                yield Goal_1.Goal.update({ id }, { title });
             }
-            return goal;
+            return post;
         });
     }
-    deleteGoal(id, { em }) {
+    deleteGoal(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield em.nativeDelete(Goal_1.Goal, { id });
+            yield Goal_1.Goal.delete(id);
             return true;
         });
     }
 };
 __decorate([
     type_graphql_1.Query(() => [Goal_1.Goal]),
-    __param(0, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], GoalResolver.prototype, "goals", null);
+], GoalResolver.prototype, "posts", null);
 __decorate([
     type_graphql_1.Query(() => Goal_1.Goal, { nullable: true }),
-    __param(0, type_graphql_1.Arg("id")), __param(1, type_graphql_1.Ctx()),
+    __param(0, type_graphql_1.Arg("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], GoalResolver.prototype, "goal", null);
+], GoalResolver.prototype, "post", null);
 __decorate([
     type_graphql_1.Mutation(() => Goal_1.Goal),
     __param(0, type_graphql_1.Arg("title")),
-    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], GoalResolver.prototype, "createGoal", null);
 __decorate([
     type_graphql_1.Mutation(() => Goal_1.Goal, { nullable: true }),
     __param(0, type_graphql_1.Arg("id")),
     __param(1, type_graphql_1.Arg("title", () => String, { nullable: true })),
-    __param(2, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
 ], GoalResolver.prototype, "updateGoal", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
     __param(0, type_graphql_1.Arg("id")),
-    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], GoalResolver.prototype, "deleteGoal", null);
 GoalResolver = __decorate([
