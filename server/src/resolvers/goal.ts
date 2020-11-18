@@ -5,12 +5,12 @@ import { Goal } from "../entities/Goal";
 @Resolver()
 export class GoalResolver {
   @Query(() => [Goal])
-  async posts(): Promise<Goal[]> {
+  async goals(): Promise<Goal[]> {
     return Goal.find();
   }
 
   @Query(() => Goal, { nullable: true })
-  post(@Arg("id") id: number): Promise<Goal | undefined> {
+  goal(@Arg("id") id: number): Promise<Goal | undefined> {
     return Goal.findOne(id);
   }
 
@@ -24,14 +24,14 @@ export class GoalResolver {
     @Arg("id") id: number,
     @Arg("title", () => String, { nullable: true }) title: string
   ): Promise<Goal | null> {
-    const post = await Goal.findOne(id);
-    if (!post) {
+    const goal = await Goal.findOne(id);
+    if (!goal) {
       return null;
     }
     if (typeof title !== "undefined") {
       await Goal.update({ id }, { title });
     }
-    return post;
+    return goal;
   }
 
   @Mutation(() => Boolean)

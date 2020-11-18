@@ -30,9 +30,9 @@ const User_1 = require("./entities/User");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield typeorm_1.createConnection({
         type: "postgres",
-        database: "mattidcrm2",
-        username: "justinm",
-        password: "Deeder1432!",
+        database: "mattidcrm",
+        username: "postgres",
+        password: "postgres",
         logging: true,
         synchronize: true,
         entities: [Goal_1.Goal, User_1.User],

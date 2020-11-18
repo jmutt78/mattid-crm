@@ -25,12 +25,12 @@ exports.GoalResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Goal_1 = require("../entities/Goal");
 let GoalResolver = class GoalResolver {
-    posts() {
+    goals() {
         return __awaiter(this, void 0, void 0, function* () {
             return Goal_1.Goal.find();
         });
     }
-    post(id) {
+    goal(id) {
         return Goal_1.Goal.findOne(id);
     }
     createGoal(title) {
@@ -40,14 +40,14 @@ let GoalResolver = class GoalResolver {
     }
     updateGoal(id, title) {
         return __awaiter(this, void 0, void 0, function* () {
-            const post = yield Goal_1.Goal.findOne(id);
-            if (!post) {
+            const goal = yield Goal_1.Goal.findOne(id);
+            if (!goal) {
                 return null;
             }
             if (typeof title !== "undefined") {
                 yield Goal_1.Goal.update({ id }, { title });
             }
-            return post;
+            return goal;
         });
     }
     deleteGoal(id) {
@@ -62,14 +62,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], GoalResolver.prototype, "posts", null);
+], GoalResolver.prototype, "goals", null);
 __decorate([
     type_graphql_1.Query(() => Goal_1.Goal, { nullable: true }),
     __param(0, type_graphql_1.Arg("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], GoalResolver.prototype, "post", null);
+], GoalResolver.prototype, "goal", null);
 __decorate([
     type_graphql_1.Mutation(() => Goal_1.Goal),
     __param(0, type_graphql_1.Arg("title")),
