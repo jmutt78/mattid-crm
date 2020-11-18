@@ -1,0 +1,9 @@
+mutation CreateGoal($input: GoalInput!) {
+  createGoal(input: $input) {
+    id
+    createdAt
+    updatedAt
+    monthGoalString
+    creatorId
+  }
+}

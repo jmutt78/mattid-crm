@@ -1,6 +1,23 @@
-
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import {
+  Resolver,
+  Query,
+  Arg,
+  Mutation,
+  InputType,
+  Field,
+  Ctx,
+  UseMiddleware,
+} from "type-graphql";
 import { Goal } from "../entities/Goal";
+import { MyContext } from "../types";
+import { isAuth } from "../middleware/isAuth";
+
+@InputType()
+class GoalInput {
+  @Field()
+  monthGoalString: string;
+
+}
 
 @Resolver()
 export class GoalResolver {
@@ -15,21 +32,28 @@ export class GoalResolver {
   }
 
   @Mutation(() => Goal)
-  async createGoal(@Arg("title") title: string): Promise<Goal> {
-    return Goal.create({ title }).save();
+  @UseMiddleware(isAuth)
+  async createGoal(
+    @Arg("input") input: GoalInput,
+    @Ctx() { req }: MyContext
+  ): Promise<Goal> {
+    return Goal.create({
+      ...input,
+      creatorId: req.session.userId,
+    }).save();
   }
 
   @Mutation(() => Goal, { nullable: true })
   async updateGoal(
     @Arg("id") id: number,
-    @Arg("title", () => String, { nullable: true }) title: string
+    @Arg("monthGoalString", () => String, { nullable: true }) monthGoalString: string
   ): Promise<Goal | null> {
     const goal = await Goal.findOne(id);
     if (!goal) {
       return null;
     }
-    if (typeof title !== "undefined") {
-      await Goal.update({ id }, { title });
+    if (typeof monthGoalString !== "undefined") {
+      await Goal.update({ id }, { monthGoalString });
     }
     return goal;
   }

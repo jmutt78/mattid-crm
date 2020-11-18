@@ -10,6 +10,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
 export type Query = {
@@ -28,18 +30,22 @@ export type QueryGoalArgs = {
 export type Goal = {
   __typename?: 'Goal';
   id: Scalars['Float'];
+  monthGoal: Scalars['Float'];
+  monthGoalString: Scalars['String'];
+  date: Scalars['DateTime'];
+  creatorId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-  title: Scalars['String'];
 };
+
 
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
 };
 
 export type Mutation = {
@@ -56,12 +62,12 @@ export type Mutation = {
 
 
 export type MutationCreateGoalArgs = {
-  title: Scalars['String'];
+  input: GoalInput;
 };
 
 
 export type MutationUpdateGoalArgs = {
-  title?: Maybe<Scalars['String']>;
+  monthGoalString?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
 };
 
@@ -90,6 +96,10 @@ export type MutationRegisterArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
+};
+
+export type GoalInput = {
+  monthGoalString: Scalars['String'];
 };
 
 export type UserResponse = {
@@ -145,6 +155,19 @@ export type ChangePasswordMutation = (
   ) }
 );
 
+export type CreateGoalMutationVariables = Exact<{
+  input: GoalInput;
+}>;
+
+
+export type CreateGoalMutation = (
+  { __typename?: 'Mutation' }
+  & { createGoal: (
+    { __typename?: 'Goal' }
+    & Pick<Goal, 'id' | 'createdAt' | 'updatedAt' | 'monthGoalString' | 'creatorId'>
+  ) }
+);
+
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -197,7 +220,7 @@ export type GoalsQuery = (
   { __typename?: 'Query' }
   & { goals: Array<(
     { __typename?: 'Goal' }
-    & Pick<Goal, 'id' | 'title' | 'createdAt' | 'updatedAt'>
+    & Pick<Goal, 'id' | 'monthGoalString' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -246,6 +269,21 @@ export const ChangePasswordDocument = gql`
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
 };
+export const CreateGoalDocument = gql`
+    mutation CreateGoal($input: GoalInput!) {
+  createGoal(input: $input) {
+    id
+    createdAt
+    updatedAt
+    monthGoalString
+    creatorId
+  }
+}
+    `;
+
+export function useCreateGoalMutation() {
+  return Urql.useMutation<CreateGoalMutation, CreateGoalMutationVariables>(CreateGoalDocument);
+};
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -290,7 +328,7 @@ export const GoalsDocument = gql`
     query Goals {
   goals {
     id
-    title
+    monthGoalString
     createdAt
     updatedAt
   }

@@ -6,13 +6,34 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  ManyToOne,
 } from "typeorm";
+import { User } from "./User";
 @ObjectType()
 @Entity()
 export class Goal extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Field()
+  @Column({ type: "int", default: 0 })
+  monthGoal: number;
+
+  @Field()
+  @Column()
+  monthGoalString: string;
+
+  @Field()
+  @CreateDateColumn()
+  date: Date;
+
+  @Field()
+  @Column()
+  creatorId: number;
+
+  @ManyToOne(() => User, (user) => user.goals)
+  creator: User;
 
   @Field(() => String)
   @CreateDateColumn()
@@ -22,7 +43,4 @@ export class Goal extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Field()
-  @Column()
-  title!: string;
 }

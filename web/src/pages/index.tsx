@@ -13,7 +13,7 @@ const Index = () => {
       {!data ? (
         <div>loading...</div>
       ) : (
-        data.goals.map((p) => <div key={p.id}>{p.title}</div>)
+        data.goals.map((p) => <div key={p.id}>{p.monthGoalString}</div>)
       )}
     </>
   );

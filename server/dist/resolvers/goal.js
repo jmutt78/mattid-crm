@@ -24,6 +24,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoalResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Goal_1 = require("../entities/Goal");
+const isAuth_1 = require("../middleware/isAuth");
+let GoalInput = class GoalInput {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], GoalInput.prototype, "monthGoalString", void 0);
+GoalInput = __decorate([
+    type_graphql_1.InputType()
+], GoalInput);
 let GoalResolver = class GoalResolver {
     goals() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -33,19 +43,19 @@ let GoalResolver = class GoalResolver {
     goal(id) {
         return Goal_1.Goal.findOne(id);
     }
-    createGoal(title) {
+    createGoal(input, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
-            return Goal_1.Goal.create({ title }).save();
+            return Goal_1.Goal.create(Object.assign(Object.assign({}, input), { creatorId: req.session.userId })).save();
         });
     }
-    updateGoal(id, title) {
+    updateGoal(id, monthGoalString) {
         return __awaiter(this, void 0, void 0, function* () {
             const goal = yield Goal_1.Goal.findOne(id);
             if (!goal) {
                 return null;
             }
-            if (typeof title !== "undefined") {
-                yield Goal_1.Goal.update({ id }, { title });
+            if (typeof monthGoalString !== "undefined") {
+                yield Goal_1.Goal.update({ id }, { monthGoalString });
             }
             return goal;
         });
@@ -72,15 +82,17 @@ __decorate([
 ], GoalResolver.prototype, "goal", null);
 __decorate([
     type_graphql_1.Mutation(() => Goal_1.Goal),
-    __param(0, type_graphql_1.Arg("title")),
+    type_graphql_1.UseMiddleware(isAuth_1.isAuth),
+    __param(0, type_graphql_1.Arg("input")),
+    __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [GoalInput, Object]),
     __metadata("design:returntype", Promise)
 ], GoalResolver.prototype, "createGoal", null);
 __decorate([
     type_graphql_1.Mutation(() => Goal_1.Goal, { nullable: true }),
     __param(0, type_graphql_1.Arg("id")),
-    __param(1, type_graphql_1.Arg("title", () => String, { nullable: true })),
+    __param(1, type_graphql_1.Arg("monthGoalString", () => String, { nullable: true })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
