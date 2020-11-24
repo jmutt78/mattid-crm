@@ -22,7 +22,7 @@ export class Goal extends BaseEntity {
 
   @Field()
   @Column()
-  monthGoalString: string;
+  monthGoalString!: string;
 
   @Field()
   @CreateDateColumn()
