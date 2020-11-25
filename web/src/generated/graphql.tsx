@@ -18,13 +18,13 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   goals: Array<Goal>;
-  goal?: Maybe<Goal>;
   me?: Maybe<User>;
 };
 
 
-export type QueryGoalArgs = {
-  id: Scalars['Float'];
+export type QueryGoalsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 export type Goal = {
@@ -213,14 +213,17 @@ export type RegisterMutation = (
   ) }
 );
 
-export type GoalsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GoalsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
 
 export type GoalsQuery = (
   { __typename?: 'Query' }
   & { goals: Array<(
     { __typename?: 'Goal' }
-    & Pick<Goal, 'id' | 'monthGoalString' | 'createdAt' | 'updatedAt'>
+    & Pick<Goal, 'id' | 'monthGoal' | 'monthGoalString' | 'createdAt' | 'updatedAt' | 'date'>
   )> }
 );
 
@@ -325,12 +328,14 @@ export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const GoalsDocument = gql`
-    query Goals {
-  goals {
+    query Goals($limit: Int!, $cursor: String) {
+  goals(cursor: $cursor, limit: $limit) {
     id
+    monthGoal
     monthGoalString
     createdAt
     updatedAt
+    date
   }
 }
     `;

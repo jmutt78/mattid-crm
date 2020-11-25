@@ -1,8 +1,10 @@
-query Goals {
-  goals {
+query Goals($limit: Int!, $cursor: String) {
+  goals(cursor: $cursor, limit: $limit) {
     id
+    monthGoal
     monthGoalString
     createdAt
     updatedAt
+    date
   }
 }

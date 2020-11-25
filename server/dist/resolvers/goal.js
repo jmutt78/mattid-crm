@@ -25,6 +25,7 @@ exports.GoalResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const Goal_1 = require("../entities/Goal");
 const isAuth_1 = require("../middleware/isAuth");
+const typeorm_1 = require("typeorm");
 let GoalInput = class GoalInput {
 };
 __decorate([
@@ -35,13 +36,21 @@ GoalInput = __decorate([
     type_graphql_1.InputType()
 ], GoalInput);
 let GoalResolver = class GoalResolver {
-    goals() {
+    goals(limit, cursor) {
         return __awaiter(this, void 0, void 0, function* () {
-            return Goal_1.Goal.find();
+            const realLimit = Math.min(50, limit);
+            const qb = typeorm_1.getConnection()
+                .getRepository(Goal_1.Goal)
+                .createQueryBuilder("g")
+                .orderBy('"createdAt"', "DESC")
+                .take(realLimit);
+            if (cursor) {
+                qb.where('"createdAt" < :cursor', {
+                    cursor: new Date(parseInt(cursor)),
+                });
+            }
+            return qb.getMany();
         });
-    }
-    goal(id) {
-        return Goal_1.Goal.findOne(id);
     }
     createGoal(input, { req }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -69,17 +78,12 @@ let GoalResolver = class GoalResolver {
 };
 __decorate([
     type_graphql_1.Query(() => [Goal_1.Goal]),
+    __param(0, type_graphql_1.Arg("limit", () => type_graphql_1.Int)),
+    __param(1, type_graphql_1.Arg("cursor", () => String, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], GoalResolver.prototype, "goals", null);
-__decorate([
-    type_graphql_1.Query(() => Goal_1.Goal, { nullable: true }),
-    __param(0, type_graphql_1.Arg("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
-], GoalResolver.prototype, "goal", null);
 __decorate([
     type_graphql_1.Mutation(() => Goal_1.Goal),
     type_graphql_1.UseMiddleware(isAuth_1.isAuth),

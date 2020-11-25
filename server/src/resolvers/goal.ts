@@ -7,10 +7,12 @@ import {
   Field,
   Ctx,
   UseMiddleware,
+  Int
 } from "type-graphql";
 import { Goal } from "../entities/Goal";
 import { MyContext } from "../types";
 import { isAuth } from "../middleware/isAuth";
+import { getConnection } from "typeorm";
 
 @InputType()
 class GoalInput {
@@ -22,13 +24,24 @@ class GoalInput {
 @Resolver()
 export class GoalResolver {
   @Query(() => [Goal])
-  async goals(): Promise<Goal[]> {
-    return Goal.find();
-  }
+  async goals(
+    @Arg("limit", () => Int) limit: number,
+    @Arg("cursor", () => String, { nullable: true }) cursor: string | null
+  ): Promise<Goal[]> {
+    const realLimit = Math.min(50, limit);
+    const qb = getConnection()
+      .getRepository(Goal)
+      .createQueryBuilder("g")
+      .orderBy('"createdAt"', "DESC")
+      .take(realLimit);
 
-  @Query(() => Goal, { nullable: true })
-  goal(@Arg("id") id: number): Promise<Goal | undefined> {
-    return Goal.findOne(id);
+    if (cursor) {
+      qb.where('"createdAt" < :cursor', {
+        cursor: new Date(parseInt(cursor)),
+      });
+    }
+
+    return qb.getMany();
   }
 
   @Mutation(() => Goal)

@@ -26,7 +26,7 @@ const CreateGoal: React.FC<{}> = ({}) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <InputField name="monthGoalString" placeholder="goal" label="Goal" />
+            <InputField name="monthGoalString" placeholder="goal..." label="Goal" />
             <Box mt={4}>
 
             </Box>

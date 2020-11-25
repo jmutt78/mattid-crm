@@ -5,7 +5,11 @@ import { useGoalsQuery } from "../generated/graphql";
 import { Layout } from "../components/Layout";
 
 const Index = () => {
-  const [{ data }] = useGoalsQuery();
+  const [{ data }] = useGoalsQuery({
+    variables: {
+      limit: 10,
+    },
+  });
   return (
     <Layout variant="regular">
       <br />
