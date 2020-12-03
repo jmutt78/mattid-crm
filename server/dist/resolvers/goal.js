@@ -35,21 +35,39 @@ __decorate([
 GoalInput = __decorate([
     type_graphql_1.InputType()
 ], GoalInput);
+let PaginatedGoals = class PaginatedGoals {
+};
+__decorate([
+    type_graphql_1.Field(() => [Goal_1.Goal]),
+    __metadata("design:type", Array)
+], PaginatedGoals.prototype, "goals", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Boolean)
+], PaginatedGoals.prototype, "hasMore", void 0);
+PaginatedGoals = __decorate([
+    type_graphql_1.ObjectType()
+], PaginatedGoals);
 let GoalResolver = class GoalResolver {
     goals(limit, cursor) {
         return __awaiter(this, void 0, void 0, function* () {
             const realLimit = Math.min(50, limit);
+            const reaLimitPlusOne = realLimit + 1;
             const qb = typeorm_1.getConnection()
                 .getRepository(Goal_1.Goal)
-                .createQueryBuilder("g")
+                .createQueryBuilder("p")
                 .orderBy('"createdAt"', "DESC")
-                .take(realLimit);
+                .take(reaLimitPlusOne);
             if (cursor) {
                 qb.where('"createdAt" < :cursor', {
                     cursor: new Date(parseInt(cursor)),
                 });
             }
-            return qb.getMany();
+            const goals = yield qb.getMany();
+            return {
+                goals: goals.slice(0, realLimit),
+                hasMore: goals.length === reaLimitPlusOne,
+            };
         });
     }
     createGoal(input, { req }) {
@@ -77,7 +95,7 @@ let GoalResolver = class GoalResolver {
     }
 };
 __decorate([
-    type_graphql_1.Query(() => [Goal_1.Goal]),
+    type_graphql_1.Query(() => PaginatedGoals),
     __param(0, type_graphql_1.Arg("limit", () => type_graphql_1.Int)),
     __param(1, type_graphql_1.Arg("cursor", () => String, { nullable: true })),
     __metadata("design:type", Function),

@@ -26,10 +26,10 @@ const main = async () => {
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Goal, User],
   });
-
-//  await conn.runMigrations();
+  // await Goal.delete({});
+  await conn.runMigrations();
   const app = express();
-
+   
   const RedisStore = connectRedis(session);
   const redis = new Redis();
   app.use(
@@ -75,6 +75,6 @@ const main = async () => {
   });
 };
 
-main().catch((err) => {
+  main().catch((err) => {
   console.error(err);
 });

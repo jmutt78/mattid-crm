@@ -7,7 +7,8 @@ import {
   Field,
   Ctx,
   UseMiddleware,
-  Int
+  Int,
+  ObjectType
 } from "type-graphql";
 import { Goal } from "../entities/Goal";
 import { MyContext } from "../types";
@@ -21,19 +22,29 @@ class GoalInput {
 
 }
 
+@ObjectType()
+class PaginatedGoals {
+  @Field(() => [Goal])
+  goals: Goal[];
+  @Field()
+  hasMore: boolean;
+}
+
 @Resolver()
 export class GoalResolver {
-  @Query(() => [Goal])
+  @Query(() => PaginatedGoals)
   async goals(
     @Arg("limit", () => Int) limit: number,
     @Arg("cursor", () => String, { nullable: true }) cursor: string | null
-  ): Promise<Goal[]> {
+  ): Promise<PaginatedGoals> {
+    // 20 -> 21
     const realLimit = Math.min(50, limit);
+    const reaLimitPlusOne = realLimit + 1;
     const qb = getConnection()
       .getRepository(Goal)
-      .createQueryBuilder("g")
+      .createQueryBuilder("p")
       .orderBy('"createdAt"', "DESC")
-      .take(realLimit);
+      .take(reaLimitPlusOne);
 
     if (cursor) {
       qb.where('"createdAt" < :cursor', {
@@ -41,7 +52,12 @@ export class GoalResolver {
       });
     }
 
-    return qb.getMany();
+    const goals = await qb.getMany();
+
+    return {
+      goals: goals.slice(0, realLimit),
+      hasMore: goals.length === reaLimitPlusOne,
+    };
   }
 
   @Mutation(() => Goal)

@@ -17,7 +17,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
-  goals: Array<Goal>;
+  goals: PaginatedGoals;
   me?: Maybe<User>;
 };
 
@@ -25,6 +25,12 @@ export type Query = {
 export type QueryGoalsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit: Scalars['Int'];
+};
+
+export type PaginatedGoals = {
+  __typename?: 'PaginatedGoals';
+  goals: Array<Goal>;
+  hasMore: Scalars['Boolean'];
 };
 
 export type Goal = {
@@ -221,10 +227,14 @@ export type GoalsQueryVariables = Exact<{
 
 export type GoalsQuery = (
   { __typename?: 'Query' }
-  & { goals: Array<(
-    { __typename?: 'Goal' }
-    & Pick<Goal, 'id' | 'monthGoal' | 'monthGoalString' | 'createdAt' | 'updatedAt' | 'date'>
-  )> }
+  & { goals: (
+    { __typename?: 'PaginatedGoals' }
+    & Pick<PaginatedGoals, 'hasMore'>
+    & { goals: Array<(
+      { __typename?: 'Goal' }
+      & Pick<Goal, 'id' | 'monthGoal' | 'monthGoalString' | 'createdAt' | 'updatedAt' | 'date'>
+    )> }
+  ) }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -329,13 +339,16 @@ export function useRegisterMutation() {
 };
 export const GoalsDocument = gql`
     query Goals($limit: Int!, $cursor: String) {
-  goals(cursor: $cursor, limit: $limit) {
-    id
-    monthGoal
-    monthGoalString
-    createdAt
-    updatedAt
-    date
+  goals(limit: $limit, cursor: $cursor) {
+    hasMore
+    goals {
+      id
+      monthGoal
+      monthGoalString
+      createdAt
+      updatedAt
+      date
+    }
   }
 }
     `;
