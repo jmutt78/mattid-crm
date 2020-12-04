@@ -40,6 +40,7 @@ export type Goal = {
   monthGoalString: Scalars['String'];
   date: Scalars['DateTime'];
   creatorId: Scalars['Float'];
+  creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -125,6 +126,15 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
   password: Scalars['String'];
 };
+
+export type GoalSnippetFragment = (
+  { __typename?: 'Goal' }
+  & Pick<Goal, 'id' | 'monthGoal' | 'monthGoalString' | 'createdAt' | 'updatedAt' | 'date'>
+  & { creator: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username'>
+  ) }
+);
 
 export type RegularErrorFragment = (
   { __typename?: 'FieldError' }
@@ -232,7 +242,7 @@ export type GoalsQuery = (
     & Pick<PaginatedGoals, 'hasMore'>
     & { goals: Array<(
       { __typename?: 'Goal' }
-      & Pick<Goal, 'id' | 'monthGoal' | 'monthGoalString' | 'createdAt' | 'updatedAt' | 'date'>
+      & GoalSnippetFragment
     )> }
   ) }
 );
@@ -248,6 +258,20 @@ export type MeQuery = (
   )> }
 );
 
+export const GoalSnippetFragmentDoc = gql`
+    fragment GoalSnippet on Goal {
+  id
+  monthGoal
+  monthGoalString
+  createdAt
+  updatedAt
+  date
+  creator {
+    id
+    username
+  }
+}
+    `;
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   field
@@ -342,16 +366,11 @@ export const GoalsDocument = gql`
   goals(limit: $limit, cursor: $cursor) {
     hasMore
     goals {
-      id
-      monthGoal
-      monthGoalString
-      createdAt
-      updatedAt
-      date
+      ...GoalSnippet
     }
   }
 }
-    `;
+    ${GoalSnippetFragmentDoc}`;
 
 export function useGoalsQuery(options: Omit<Urql.UseQueryArgs<GoalsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GoalsQuery>({ query: GoalsDocument, ...options });

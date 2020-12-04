@@ -13,15 +13,13 @@ const Index = () => {
     cursor: null as null | string,
   });
 
-  console.log(variables);
-
   const [{ data, fetching }] = useGoalsQuery({
     variables,
   });
   if (!fetching && !data) {
     return <div>you got query failed for some reason</div>;
   }
-  console.log(data);
+
   return (
     <Layout>
       <Flex align='center'>

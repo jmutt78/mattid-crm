@@ -32,6 +32,7 @@ export class Goal extends BaseEntity {
   @Column()
   creatorId: number;
 
+  @Field()
   @ManyToOne(() => User, (user) => user.goals)
   creator: User;
 

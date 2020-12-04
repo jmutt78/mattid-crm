@@ -53,17 +53,26 @@ let GoalResolver = class GoalResolver {
         return __awaiter(this, void 0, void 0, function* () {
             const realLimit = Math.min(50, limit);
             const reaLimitPlusOne = realLimit + 1;
-            const qb = typeorm_1.getConnection()
-                .getRepository(Goal_1.Goal)
-                .createQueryBuilder("p")
-                .orderBy('"createdAt"', "DESC")
-                .take(reaLimitPlusOne);
+            const replacements = [reaLimitPlusOne];
             if (cursor) {
-                qb.where('"createdAt" < :cursor', {
-                    cursor: new Date(parseInt(cursor)),
-                });
+                replacements.push(new Date(parseInt(cursor)));
             }
-            const goals = yield qb.getMany();
+            const goals = yield typeorm_1.getConnection().query(`
+    select p.*,
+    json_build_object(
+      'id', u.id,
+      'username', u.username,
+      'email', u.email,
+      'createdAt', u."createdAt",
+      'updatedAt', u."updatedAt"
+      ) creator
+    from goal p
+    inner join public.user u on u.id = p."creatorId"
+    ${cursor ? `where p."createdAt" < $2` : ""}
+    order by p."createdAt" DESC
+    limit $1
+    `, replacements);
+            console.log("goals: ", goals);
             return {
                 goals: goals.slice(0, realLimit),
                 hasMore: goals.length === reaLimitPlusOne,

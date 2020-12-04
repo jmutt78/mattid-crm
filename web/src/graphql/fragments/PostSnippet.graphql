@@ -1,0 +1,12 @@
+fragment GoalSnippet on Goal {
+  id
+  monthGoal
+  monthGoalString
+  createdAt
+  updatedAt
+  date
+  creator {
+    id
+    username
+  }
+}

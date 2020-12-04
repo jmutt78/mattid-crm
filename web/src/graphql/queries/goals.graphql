@@ -2,12 +2,7 @@ query Goals($limit: Int!, $cursor: String) {
   goals(limit: $limit, cursor: $cursor) {
     hasMore
     goals {
-      id
-      monthGoal
-      monthGoalString
-      createdAt
-      updatedAt
-      date
+      ...GoalSnippet
     }
   }
 }
