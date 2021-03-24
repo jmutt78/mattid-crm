@@ -6,7 +6,6 @@ query Post($id: Int!) {
     title
     points
     text
-    voteStatus
     creator {
       id
       username

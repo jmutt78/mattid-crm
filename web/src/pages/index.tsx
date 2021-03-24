@@ -1,13 +1,13 @@
-import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/core";
-import { withUrqlClient } from "next-urql";
-import NextLink from "next/link";
-import { useState } from "react";
-import { EditDeletePostButtons } from "../components/EditDeletePostButtons";
-import { Layout } from "../components/Layout";
-import { UpdootSection } from "../components/UpdootSection";
-import { usePostsQuery, PostsQuery } from "../generated/graphql";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import { withApollo } from "../utils/withApollo";
+import { Box, Button, Flex, Heading, Link, Stack, Text } from '@chakra-ui/core';
+import { withUrqlClient } from 'next-urql';
+import NextLink from 'next/link';
+import { useState } from 'react';
+import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
+import { Layout } from '../components/Layout';
+
+import { usePostsQuery, PostsQuery } from '../generated/graphql';
+import { createUrqlClient } from '../utils/createUrqlClient';
+import { withApollo } from '../utils/withApollo';
 
 const Index = () => {
   const { data, error, loading, fetchMore, variables } = usePostsQuery({
@@ -35,20 +35,19 @@ const Index = () => {
         <Stack spacing={8}>
           {data!.posts.posts.map((p) =>
             !p ? null : (
-              <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
-                <UpdootSection post={p} />
+              <Flex key={p.id} p={5} shadow='md' borderWidth='1px'>
                 <Box flex={1}>
-                  <NextLink href="/post/[id]" as={`/post/${p.id}`}>
+                  <NextLink href='/post/[id]' as={`/post/${p.id}`}>
                     <Link>
-                      <Heading fontSize="xl">{p.title}</Heading>
+                      <Heading fontSize='xl'>{p.title}</Heading>
                     </Link>
                   </NextLink>
                   <Text>posted by {p.creator.username}</Text>
-                  <Flex align="center">
+                  <Flex align='center'>
                     <Text flex={1} mt={4}>
                       {p.textSnippet}
                     </Text>
-                    <Box ml="auto">
+                    <Box ml='auto'>
                       <EditDeletePostButtons
                         id={p.id}
                         creatorId={p.creator.id}
@@ -57,7 +56,7 @@ const Index = () => {
                   </Flex>
                 </Box>
               </Flex>
-            )
+            ),
           )}
         </Stack>
       )}
@@ -94,7 +93,7 @@ const Index = () => {
               });
             }}
             isLoading={loading}
-            m="auto"
+            m='auto'
             my={8}
           >
             load more
