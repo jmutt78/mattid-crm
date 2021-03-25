@@ -40,14 +40,6 @@ export const SideBar = () => {
         fontSize={19}
         flexDirection='column'
       >
-        <Img
-          boxSize='75px'
-          objectFit='cover'
-          src='/static/logo.png'
-          alt='Logo'
-          mx='auto'
-        />
-
         <Box mx='auto'>
           <ActiveLink href='/'>
             <Icon as={MdHome} mr={2} mb='5px' />

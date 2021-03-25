@@ -1,6 +1,0 @@
-fragment StaffSnippet on Staff {
-  id
-  createdAt
-  updatedAt
-  name
-}

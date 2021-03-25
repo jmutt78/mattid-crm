@@ -1,8 +1,0 @@
-fragment RegularStaffResponse on StaffResponse {
-  errors {
-    ...RegularError
-  }
-  staff {
-    ...RegularStaff
-  }
-}

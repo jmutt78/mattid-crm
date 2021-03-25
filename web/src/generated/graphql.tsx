@@ -15,91 +15,15 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
-  quotes: PaginatedQuotes;
-  quote?: Maybe<Quote>;
-  subs: PaginatedSubs;
-  sub?: Maybe<Sub>;
-};
-
-
-export type QueryQuotesArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QueryQuoteArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type QuerySubsArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-};
-
-
-export type QuerySubArgs = {
-  id: Scalars['Int'];
 };
 
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
   role: Scalars['String'];
-  inviteLink: Scalars['String'];
   email: Scalars['String'];
   customerType: Scalars['String'];
   ccLast4: Scalars['String'];
-  catagory: Scalars['String'];
-  name: Scalars['String'];
-  address: Scalars['String'];
-  city: Scalars['String'];
-  state: Scalars['String'];
-  zip: Scalars['String'];
-  company: Scalars['String'];
-  title: Scalars['String'];
-  linkedIn: Scalars['String'];
-  twitter: Scalars['String'];
-  facebook: Scalars['String'];
-  website: Scalars['String'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
-export type PaginatedQuotes = {
-  __typename?: 'PaginatedQuotes';
-  quotes: Array<Quote>;
-  hasMore: Scalars['Boolean'];
-};
-
-export type Quote = {
-  __typename?: 'Quote';
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  catagory: Scalars['String'];
-  creatorId: Scalars['Float'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-  user: User;
-};
-
-export type PaginatedSubs = {
-  __typename?: 'PaginatedSubs';
-  subs: Array<Sub>;
-  hasMore: Scalars['Boolean'];
-};
-
-export type Sub = {
-  __typename?: 'Sub';
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  unsubscribeToken: Scalars['String'];
-  subscribed: Scalars['Boolean'];
-  creatorId: Scalars['Float'];
-  frequency: Scalars['Float'];
-  creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -107,7 +31,6 @@ export type Sub = {
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
-  updateUser: UserResponse;
   updateAuth: UserResponse;
   forgotPassword: Scalars['Boolean'];
   register: UserResponse;
@@ -118,26 +41,12 @@ export type Mutation = {
   changeCreditCard: UserResponse;
   cancelSubscription: UserResponse;
   logout: Scalars['Boolean'];
-  createQuote: QuoteResponse;
-  updateQuote?: Maybe<Quote>;
-  deleteQuote: Scalars['Boolean'];
-  createSub: SubResponse;
-  createSubFromInvite: SubResponse;
-  acceptInvite: SubResponse;
-  updateSub?: Maybe<Sub>;
-  unsubscribeSub: SubResponse;
-  deleteSub: Scalars['Boolean'];
 };
 
 
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   token: Scalars['String'];
-};
-
-
-export type MutationUpdateUserArgs = {
-  input: UserInput;
 };
 
 
@@ -179,57 +88,6 @@ export type MutationChangeCreditCardArgs = {
   source: Scalars['String'];
 };
 
-
-export type MutationCreateQuoteArgs = {
-  input: QuoteInput;
-};
-
-
-export type MutationUpdateQuoteArgs = {
-  name: Scalars['String'];
-  id: Scalars['Int'];
-};
-
-
-export type MutationDeleteQuoteArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationCreateSubArgs = {
-  input: SubInput;
-};
-
-
-export type MutationCreateSubFromInviteArgs = {
-  input: SubInviteInput;
-};
-
-
-export type MutationAcceptInviteArgs = {
-  frequency: Scalars['Float'];
-  subscribed: Scalars['Boolean'];
-  token: Scalars['String'];
-};
-
-
-export type MutationUpdateSubArgs = {
-  subscribed: Scalars['Boolean'];
-  email: Scalars['String'];
-  name: Scalars['String'];
-  id: Scalars['Int'];
-};
-
-
-export type MutationUnsubscribeSubArgs = {
-  token: Scalars['String'];
-};
-
-
-export type MutationDeleteSubArgs = {
-  id: Scalars['Int'];
-};
-
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -240,21 +98,6 @@ export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
   message: Scalars['String'];
-};
-
-export type UserInput = {
-  name: Scalars['String'];
-  address: Scalars['String'];
-  city: Scalars['String'];
-  state: Scalars['String'];
-  zip: Scalars['String'];
-  catagory: Scalars['String'];
-  title: Scalars['String'];
-  company: Scalars['String'];
-  twitter: Scalars['String'];
-  facebook: Scalars['String'];
-  linkedIn: Scalars['String'];
-  website: Scalars['String'];
 };
 
 export type UserAuthInput = {
@@ -268,38 +111,9 @@ export type UsernamePasswordInput = {
   password: Scalars['String'];
 };
 
-export type QuoteResponse = {
-  __typename?: 'QuoteResponse';
-  errors?: Maybe<Array<FieldError>>;
-  quote?: Maybe<Quote>;
-};
-
-export type QuoteInput = {
-  name: Scalars['String'];
-  catagory: Scalars['String'];
-};
-
-export type SubResponse = {
-  __typename?: 'SubResponse';
-  errors?: Maybe<Array<FieldError>>;
-  sub?: Maybe<Sub>;
-};
-
-export type SubInput = {
-  name: Scalars['String'];
-  email: Scalars['String'];
-};
-
-export type SubInviteInput = {
-  name: Scalars['String'];
-  email: Scalars['String'];
-  frequency: Scalars['Float'];
-  token: Scalars['String'];
-};
-
 export type ProfileUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'inviteLink' | 'name' | 'email' | 'address' | 'city' | 'state' | 'zip' | 'role' | 'catagory' | 'title' | 'company' | 'twitter' | 'facebook' | 'linkedIn' | 'website' | 'customerType' | 'ccLast4'>
+  & Pick<User, 'id' | 'email' | 'role' | 'customerType' | 'ccLast4'>
 );
 
 export type ProfileUserResponseFragment = (
@@ -313,55 +127,14 @@ export type ProfileUserResponseFragment = (
   )> }
 );
 
-export type QuoteSnippetFragment = (
-  { __typename?: 'Quote' }
-  & Pick<Quote, 'id' | 'name' | 'createdAt'>
-  & { user: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
-  ) }
-);
-
 export type RegularErrorFragment = (
   { __typename?: 'FieldError' }
   & Pick<FieldError, 'field' | 'message'>
 );
 
-export type RegularQuoteFragment = (
-  { __typename?: 'Quote' }
-  & Pick<Quote, 'id'>
-);
-
-export type RegularSubFragment = (
-  { __typename?: 'Sub' }
-  & Pick<Sub, 'id'>
-);
-
 export type RegularUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'email' | 'inviteLink' | 'role'>
-);
-
-export type RegularQuoteResponseFragment = (
-  { __typename?: 'QuoteResponse' }
-  & { errors?: Maybe<Array<(
-    { __typename?: 'FieldError' }
-    & RegularErrorFragment
-  )>>, quote?: Maybe<(
-    { __typename?: 'Quote' }
-    & RegularQuoteFragment
-  )> }
-);
-
-export type RegularSubResponseFragment = (
-  { __typename?: 'SubResponse' }
-  & { errors?: Maybe<Array<(
-    { __typename?: 'FieldError' }
-    & RegularErrorFragment
-  )>>, sub?: Maybe<(
-    { __typename?: 'Sub' }
-    & RegularSubFragment
-  )> }
+  & Pick<User, 'id' | 'email' | 'role'>
 );
 
 export type RegularUserResponseFragment = (
@@ -373,30 +146,6 @@ export type RegularUserResponseFragment = (
     { __typename?: 'User' }
     & RegularUserFragment
   )> }
-);
-
-export type SubSnippetFragment = (
-  { __typename?: 'Sub' }
-  & Pick<Sub, 'id' | 'createdAt' | 'updatedAt' | 'name' | 'email' | 'subscribed'>
-  & { creator: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
-  ) }
-);
-
-export type AcceptInviteMutationVariables = Exact<{
-  token: Scalars['String'];
-  subscribed: Scalars['Boolean'];
-  frequency: Scalars['Float'];
-}>;
-
-
-export type AcceptInviteMutation = (
-  { __typename?: 'Mutation' }
-  & { acceptInvite: (
-    { __typename?: 'SubResponse' }
-    & RegularSubResponseFragment
-  ) }
 );
 
 export type CancelSubscriptionMutationVariables = Exact<{ [key: string]: never; }>;
@@ -438,45 +187,6 @@ export type ChangePasswordMutation = (
   ) }
 );
 
-export type CreateQuoteMutationVariables = Exact<{
-  input: QuoteInput;
-}>;
-
-
-export type CreateQuoteMutation = (
-  { __typename?: 'Mutation' }
-  & { createQuote: (
-    { __typename?: 'QuoteResponse' }
-    & RegularQuoteResponseFragment
-  ) }
-);
-
-export type CreateSubMutationVariables = Exact<{
-  input: SubInput;
-}>;
-
-
-export type CreateSubMutation = (
-  { __typename?: 'Mutation' }
-  & { createSub: (
-    { __typename?: 'SubResponse' }
-    & RegularSubResponseFragment
-  ) }
-);
-
-export type CreateSubFromInviteMutationVariables = Exact<{
-  input: SubInviteInput;
-}>;
-
-
-export type CreateSubFromInviteMutation = (
-  { __typename?: 'Mutation' }
-  & { createSubFromInvite: (
-    { __typename?: 'SubResponse' }
-    & RegularSubResponseFragment
-  ) }
-);
-
 export type CreateSubscriptionMutationVariables = Exact<{
   source: Scalars['String'];
   ccLast4: Scalars['String'];
@@ -489,26 +199,6 @@ export type CreateSubscriptionMutation = (
     { __typename?: 'UserResponse' }
     & ProfileUserResponseFragment
   ) }
-);
-
-export type DeleteQuoteMutationVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type DeleteQuoteMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteQuote'>
-);
-
-export type DeleteSubMutationVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type DeleteSubMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deleteSub'>
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -581,62 +271,6 @@ export type RegisterMutation = (
   ) }
 );
 
-export type UnsubscribeSubMutationVariables = Exact<{
-  token: Scalars['String'];
-}>;
-
-
-export type UnsubscribeSubMutation = (
-  { __typename?: 'Mutation' }
-  & { unsubscribeSub: (
-    { __typename?: 'SubResponse' }
-    & RegularSubResponseFragment
-  ) }
-);
-
-export type UpdateQuoteMutationVariables = Exact<{
-  id: Scalars['Int'];
-  name: Scalars['String'];
-}>;
-
-
-export type UpdateQuoteMutation = (
-  { __typename?: 'Mutation' }
-  & { updateQuote?: Maybe<(
-    { __typename?: 'Quote' }
-    & Pick<Quote, 'id' | 'name'>
-  )> }
-);
-
-export type UpdateSubMutationVariables = Exact<{
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  email: Scalars['String'];
-  subscribed: Scalars['Boolean'];
-}>;
-
-
-export type UpdateSubMutation = (
-  { __typename?: 'Mutation' }
-  & { updateSub?: Maybe<(
-    { __typename?: 'Sub' }
-    & Pick<Sub, 'id' | 'name' | 'email' | 'subscribed'>
-  )> }
-);
-
-export type UpdateUserMutationVariables = Exact<{
-  input: UserInput;
-}>;
-
-
-export type UpdateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { updateUser: (
-    { __typename?: 'UserResponse' }
-    & ProfileUserResponseFragment
-  ) }
-);
-
 export type UpdateUserAuthMutationVariables = Exact<{
   input: UserAuthInput;
 }>;
@@ -647,42 +281,6 @@ export type UpdateUserAuthMutation = (
   & { updateAuth: (
     { __typename?: 'UserResponse' }
     & RegularUserResponseFragment
-  ) }
-);
-
-export type QuotesQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  cursor?: Maybe<Scalars['String']>;
-}>;
-
-
-export type QuotesQuery = (
-  { __typename?: 'Query' }
-  & { quotes: (
-    { __typename?: 'PaginatedQuotes' }
-    & Pick<PaginatedQuotes, 'hasMore'>
-    & { quotes: Array<(
-      { __typename?: 'Quote' }
-      & QuoteSnippetFragment
-    )> }
-  ) }
-);
-
-export type SubsQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  cursor?: Maybe<Scalars['String']>;
-}>;
-
-
-export type SubsQuery = (
-  { __typename?: 'Query' }
-  & { subs: (
-    { __typename?: 'PaginatedSubs' }
-    & Pick<PaginatedSubs, 'hasMore'>
-    & { subs: Array<(
-      { __typename?: 'Sub' }
-      & SubSnippetFragment
-    )> }
   ) }
 );
 
@@ -717,21 +315,8 @@ export const RegularErrorFragmentDoc = gql`
 export const ProfileUserFragmentDoc = gql`
     fragment ProfileUser on User {
   id
-  inviteLink
-  name
   email
-  address
-  city
-  state
-  zip
   role
-  catagory
-  title
-  company
-  twitter
-  facebook
-  linkedIn
-  website
   customerType
   ccLast4
 }
@@ -747,54 +332,10 @@ export const ProfileUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${ProfileUserFragmentDoc}`;
-export const QuoteSnippetFragmentDoc = gql`
-    fragment QuoteSnippet on Quote {
-  id
-  name
-  user {
-    id
-    email
-  }
-  createdAt
-}
-    `;
-export const RegularQuoteFragmentDoc = gql`
-    fragment RegularQuote on Quote {
-  id
-}
-    `;
-export const RegularQuoteResponseFragmentDoc = gql`
-    fragment RegularQuoteResponse on QuoteResponse {
-  errors {
-    ...RegularError
-  }
-  quote {
-    ...RegularQuote
-  }
-}
-    ${RegularErrorFragmentDoc}
-${RegularQuoteFragmentDoc}`;
-export const RegularSubFragmentDoc = gql`
-    fragment RegularSub on Sub {
-  id
-}
-    `;
-export const RegularSubResponseFragmentDoc = gql`
-    fragment RegularSubResponse on SubResponse {
-  errors {
-    ...RegularError
-  }
-  sub {
-    ...RegularSub
-  }
-}
-    ${RegularErrorFragmentDoc}
-${RegularSubFragmentDoc}`;
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
   email
-  inviteLink
   role
 }
     `;
@@ -809,55 +350,6 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
-export const SubSnippetFragmentDoc = gql`
-    fragment SubSnippet on Sub {
-  id
-  createdAt
-  updatedAt
-  name
-  email
-  subscribed
-  creator {
-    id
-    email
-  }
-}
-    `;
-export const AcceptInviteDocument = gql`
-    mutation AcceptInvite($token: String!, $subscribed: Boolean!, $frequency: Float!) {
-  acceptInvite(token: $token, subscribed: $subscribed, frequency: $frequency) {
-    ...RegularSubResponse
-  }
-}
-    ${RegularSubResponseFragmentDoc}`;
-export type AcceptInviteMutationFn = Apollo.MutationFunction<AcceptInviteMutation, AcceptInviteMutationVariables>;
-
-/**
- * __useAcceptInviteMutation__
- *
- * To run a mutation, you first call `useAcceptInviteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAcceptInviteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [acceptInviteMutation, { data, loading, error }] = useAcceptInviteMutation({
- *   variables: {
- *      token: // value for 'token'
- *      subscribed: // value for 'subscribed'
- *      frequency: // value for 'frequency'
- *   },
- * });
- */
-export function useAcceptInviteMutation(baseOptions?: Apollo.MutationHookOptions<AcceptInviteMutation, AcceptInviteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AcceptInviteMutation, AcceptInviteMutationVariables>(AcceptInviteDocument, options);
-      }
-export type AcceptInviteMutationHookResult = ReturnType<typeof useAcceptInviteMutation>;
-export type AcceptInviteMutationResult = Apollo.MutationResult<AcceptInviteMutation>;
-export type AcceptInviteMutationOptions = Apollo.BaseMutationOptions<AcceptInviteMutation, AcceptInviteMutationVariables>;
 export const CancelSubscriptionDocument = gql`
     mutation CancelSubscription {
   cancelSubscription {
@@ -958,105 +450,6 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
-export const CreateQuoteDocument = gql`
-    mutation CreateQuote($input: QuoteInput!) {
-  createQuote(input: $input) {
-    ...RegularQuoteResponse
-  }
-}
-    ${RegularQuoteResponseFragmentDoc}`;
-export type CreateQuoteMutationFn = Apollo.MutationFunction<CreateQuoteMutation, CreateQuoteMutationVariables>;
-
-/**
- * __useCreateQuoteMutation__
- *
- * To run a mutation, you first call `useCreateQuoteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateQuoteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createQuoteMutation, { data, loading, error }] = useCreateQuoteMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateQuoteMutation(baseOptions?: Apollo.MutationHookOptions<CreateQuoteMutation, CreateQuoteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateQuoteMutation, CreateQuoteMutationVariables>(CreateQuoteDocument, options);
-      }
-export type CreateQuoteMutationHookResult = ReturnType<typeof useCreateQuoteMutation>;
-export type CreateQuoteMutationResult = Apollo.MutationResult<CreateQuoteMutation>;
-export type CreateQuoteMutationOptions = Apollo.BaseMutationOptions<CreateQuoteMutation, CreateQuoteMutationVariables>;
-export const CreateSubDocument = gql`
-    mutation CreateSub($input: SubInput!) {
-  createSub(input: $input) {
-    ...RegularSubResponse
-  }
-}
-    ${RegularSubResponseFragmentDoc}`;
-export type CreateSubMutationFn = Apollo.MutationFunction<CreateSubMutation, CreateSubMutationVariables>;
-
-/**
- * __useCreateSubMutation__
- *
- * To run a mutation, you first call `useCreateSubMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateSubMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createSubMutation, { data, loading, error }] = useCreateSubMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateSubMutation(baseOptions?: Apollo.MutationHookOptions<CreateSubMutation, CreateSubMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateSubMutation, CreateSubMutationVariables>(CreateSubDocument, options);
-      }
-export type CreateSubMutationHookResult = ReturnType<typeof useCreateSubMutation>;
-export type CreateSubMutationResult = Apollo.MutationResult<CreateSubMutation>;
-export type CreateSubMutationOptions = Apollo.BaseMutationOptions<CreateSubMutation, CreateSubMutationVariables>;
-export const CreateSubFromInviteDocument = gql`
-    mutation CreateSubFromInvite($input: SubInviteInput!) {
-  createSubFromInvite(input: $input) {
-    ...RegularSubResponse
-  }
-}
-    ${RegularSubResponseFragmentDoc}`;
-export type CreateSubFromInviteMutationFn = Apollo.MutationFunction<CreateSubFromInviteMutation, CreateSubFromInviteMutationVariables>;
-
-/**
- * __useCreateSubFromInviteMutation__
- *
- * To run a mutation, you first call `useCreateSubFromInviteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateSubFromInviteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createSubFromInviteMutation, { data, loading, error }] = useCreateSubFromInviteMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCreateSubFromInviteMutation(baseOptions?: Apollo.MutationHookOptions<CreateSubFromInviteMutation, CreateSubFromInviteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateSubFromInviteMutation, CreateSubFromInviteMutationVariables>(CreateSubFromInviteDocument, options);
-      }
-export type CreateSubFromInviteMutationHookResult = ReturnType<typeof useCreateSubFromInviteMutation>;
-export type CreateSubFromInviteMutationResult = Apollo.MutationResult<CreateSubFromInviteMutation>;
-export type CreateSubFromInviteMutationOptions = Apollo.BaseMutationOptions<CreateSubFromInviteMutation, CreateSubFromInviteMutationVariables>;
 export const CreateSubscriptionDocument = gql`
     mutation CreateSubscription($source: String!, $ccLast4: String!) {
   createSubscription(source: $source, ccLast4: $ccLast4) {
@@ -1091,68 +484,6 @@ export function useCreateSubscriptionMutation(baseOptions?: Apollo.MutationHookO
 export type CreateSubscriptionMutationHookResult = ReturnType<typeof useCreateSubscriptionMutation>;
 export type CreateSubscriptionMutationResult = Apollo.MutationResult<CreateSubscriptionMutation>;
 export type CreateSubscriptionMutationOptions = Apollo.BaseMutationOptions<CreateSubscriptionMutation, CreateSubscriptionMutationVariables>;
-export const DeleteQuoteDocument = gql`
-    mutation DeleteQuote($id: Int!) {
-  deleteQuote(id: $id)
-}
-    `;
-export type DeleteQuoteMutationFn = Apollo.MutationFunction<DeleteQuoteMutation, DeleteQuoteMutationVariables>;
-
-/**
- * __useDeleteQuoteMutation__
- *
- * To run a mutation, you first call `useDeleteQuoteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteQuoteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteQuoteMutation, { data, loading, error }] = useDeleteQuoteMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteQuoteMutation(baseOptions?: Apollo.MutationHookOptions<DeleteQuoteMutation, DeleteQuoteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteQuoteMutation, DeleteQuoteMutationVariables>(DeleteQuoteDocument, options);
-      }
-export type DeleteQuoteMutationHookResult = ReturnType<typeof useDeleteQuoteMutation>;
-export type DeleteQuoteMutationResult = Apollo.MutationResult<DeleteQuoteMutation>;
-export type DeleteQuoteMutationOptions = Apollo.BaseMutationOptions<DeleteQuoteMutation, DeleteQuoteMutationVariables>;
-export const DeleteSubDocument = gql`
-    mutation DeleteSub($id: Int!) {
-  deleteSub(id: $id)
-}
-    `;
-export type DeleteSubMutationFn = Apollo.MutationFunction<DeleteSubMutation, DeleteSubMutationVariables>;
-
-/**
- * __useDeleteSubMutation__
- *
- * To run a mutation, you first call `useDeleteSubMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteSubMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteSubMutation, { data, loading, error }] = useDeleteSubMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useDeleteSubMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSubMutation, DeleteSubMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteSubMutation, DeleteSubMutationVariables>(DeleteSubDocument, options);
-      }
-export type DeleteSubMutationHookResult = ReturnType<typeof useDeleteSubMutation>;
-export type DeleteSubMutationResult = Apollo.MutationResult<DeleteSubMutation>;
-export type DeleteSubMutationOptions = Apollo.BaseMutationOptions<DeleteSubMutation, DeleteSubMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -1347,146 +678,6 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const UnsubscribeSubDocument = gql`
-    mutation UnsubscribeSub($token: String!) {
-  unsubscribeSub(token: $token) {
-    ...RegularSubResponse
-  }
-}
-    ${RegularSubResponseFragmentDoc}`;
-export type UnsubscribeSubMutationFn = Apollo.MutationFunction<UnsubscribeSubMutation, UnsubscribeSubMutationVariables>;
-
-/**
- * __useUnsubscribeSubMutation__
- *
- * To run a mutation, you first call `useUnsubscribeSubMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUnsubscribeSubMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [unsubscribeSubMutation, { data, loading, error }] = useUnsubscribeSubMutation({
- *   variables: {
- *      token: // value for 'token'
- *   },
- * });
- */
-export function useUnsubscribeSubMutation(baseOptions?: Apollo.MutationHookOptions<UnsubscribeSubMutation, UnsubscribeSubMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UnsubscribeSubMutation, UnsubscribeSubMutationVariables>(UnsubscribeSubDocument, options);
-      }
-export type UnsubscribeSubMutationHookResult = ReturnType<typeof useUnsubscribeSubMutation>;
-export type UnsubscribeSubMutationResult = Apollo.MutationResult<UnsubscribeSubMutation>;
-export type UnsubscribeSubMutationOptions = Apollo.BaseMutationOptions<UnsubscribeSubMutation, UnsubscribeSubMutationVariables>;
-export const UpdateQuoteDocument = gql`
-    mutation UpdateQuote($id: Int!, $name: String!) {
-  updateQuote(id: $id, name: $name) {
-    id
-    name
-  }
-}
-    `;
-export type UpdateQuoteMutationFn = Apollo.MutationFunction<UpdateQuoteMutation, UpdateQuoteMutationVariables>;
-
-/**
- * __useUpdateQuoteMutation__
- *
- * To run a mutation, you first call `useUpdateQuoteMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateQuoteMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateQuoteMutation, { data, loading, error }] = useUpdateQuoteMutation({
- *   variables: {
- *      id: // value for 'id'
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useUpdateQuoteMutation(baseOptions?: Apollo.MutationHookOptions<UpdateQuoteMutation, UpdateQuoteMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateQuoteMutation, UpdateQuoteMutationVariables>(UpdateQuoteDocument, options);
-      }
-export type UpdateQuoteMutationHookResult = ReturnType<typeof useUpdateQuoteMutation>;
-export type UpdateQuoteMutationResult = Apollo.MutationResult<UpdateQuoteMutation>;
-export type UpdateQuoteMutationOptions = Apollo.BaseMutationOptions<UpdateQuoteMutation, UpdateQuoteMutationVariables>;
-export const UpdateSubDocument = gql`
-    mutation UpdateSub($id: Int!, $name: String!, $email: String!, $subscribed: Boolean!) {
-  updateSub(id: $id, name: $name, email: $email, subscribed: $subscribed) {
-    id
-    name
-    email
-    subscribed
-  }
-}
-    `;
-export type UpdateSubMutationFn = Apollo.MutationFunction<UpdateSubMutation, UpdateSubMutationVariables>;
-
-/**
- * __useUpdateSubMutation__
- *
- * To run a mutation, you first call `useUpdateSubMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateSubMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateSubMutation, { data, loading, error }] = useUpdateSubMutation({
- *   variables: {
- *      id: // value for 'id'
- *      name: // value for 'name'
- *      email: // value for 'email'
- *      subscribed: // value for 'subscribed'
- *   },
- * });
- */
-export function useUpdateSubMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSubMutation, UpdateSubMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateSubMutation, UpdateSubMutationVariables>(UpdateSubDocument, options);
-      }
-export type UpdateSubMutationHookResult = ReturnType<typeof useUpdateSubMutation>;
-export type UpdateSubMutationResult = Apollo.MutationResult<UpdateSubMutation>;
-export type UpdateSubMutationOptions = Apollo.BaseMutationOptions<UpdateSubMutation, UpdateSubMutationVariables>;
-export const UpdateUserDocument = gql`
-    mutation UpdateUser($input: UserInput!) {
-  updateUser(input: $input) {
-    ...ProfileUserResponse
-  }
-}
-    ${ProfileUserResponseFragmentDoc}`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
-
-/**
- * __useUpdateUserMutation__
- *
- * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
-      }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const UpdateUserAuthDocument = gql`
     mutation UpdateUserAuth($input: UserAuthInput!) {
   updateAuth(input: $input) {
@@ -1520,84 +711,6 @@ export function useUpdateUserAuthMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateUserAuthMutationHookResult = ReturnType<typeof useUpdateUserAuthMutation>;
 export type UpdateUserAuthMutationResult = Apollo.MutationResult<UpdateUserAuthMutation>;
 export type UpdateUserAuthMutationOptions = Apollo.BaseMutationOptions<UpdateUserAuthMutation, UpdateUserAuthMutationVariables>;
-export const QuotesDocument = gql`
-    query Quotes($limit: Int!, $cursor: String) {
-  quotes(limit: $limit, cursor: $cursor) {
-    hasMore
-    quotes {
-      ...QuoteSnippet
-    }
-  }
-}
-    ${QuoteSnippetFragmentDoc}`;
-
-/**
- * __useQuotesQuery__
- *
- * To run a query within a React component, call `useQuotesQuery` and pass it any options that fit your needs.
- * When your component renders, `useQuotesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useQuotesQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      cursor: // value for 'cursor'
- *   },
- * });
- */
-export function useQuotesQuery(baseOptions: Apollo.QueryHookOptions<QuotesQuery, QuotesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QuotesQuery, QuotesQueryVariables>(QuotesDocument, options);
-      }
-export function useQuotesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QuotesQuery, QuotesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QuotesQuery, QuotesQueryVariables>(QuotesDocument, options);
-        }
-export type QuotesQueryHookResult = ReturnType<typeof useQuotesQuery>;
-export type QuotesLazyQueryHookResult = ReturnType<typeof useQuotesLazyQuery>;
-export type QuotesQueryResult = Apollo.QueryResult<QuotesQuery, QuotesQueryVariables>;
-export const SubsDocument = gql`
-    query Subs($limit: Int!, $cursor: String) {
-  subs(limit: $limit, cursor: $cursor) {
-    hasMore
-    subs {
-      ...SubSnippet
-    }
-  }
-}
-    ${SubSnippetFragmentDoc}`;
-
-/**
- * __useSubsQuery__
- *
- * To run a query within a React component, call `useSubsQuery` and pass it any options that fit your needs.
- * When your component renders, `useSubsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSubsQuery({
- *   variables: {
- *      limit: // value for 'limit'
- *      cursor: // value for 'cursor'
- *   },
- * });
- */
-export function useSubsQuery(baseOptions: Apollo.QueryHookOptions<SubsQuery, SubsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SubsQuery, SubsQueryVariables>(SubsDocument, options);
-      }
-export function useSubsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SubsQuery, SubsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SubsQuery, SubsQueryVariables>(SubsDocument, options);
-        }
-export type SubsQueryHookResult = ReturnType<typeof useSubsQuery>;
-export type SubsLazyQueryHookResult = ReturnType<typeof useSubsLazyQuery>;
-export type SubsQueryResult = Apollo.QueryResult<SubsQuery, SubsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
