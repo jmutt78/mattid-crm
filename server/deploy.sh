@@ -3,6 +3,6 @@
 echo What should the version be?
 read VERSION
 
-docker build -t benawad/lireddit:$VERSION .
-docker push benawad/lireddit:$VERSION
-ssh root@64.227.13.208 "docker pull benawad/lireddit:$VERSION && docker tag benawad/lireddit:$VERSION dokku/api:$VERSION && dokku deploy api $VERSION"
+docker build -t jaymutt78/nexus:$VERSION .
+docker push jaymutt78/nexus:$VERSION
+ssh root@178.128.10.29  "docker pull jaymutt78/nexus:$VERSION && docker tag jaymutt78/nexus:$VERSION dokku/api:$VERSION && dokku deploy api $VERSION"

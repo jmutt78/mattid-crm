@@ -8,7 +8,12 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { Post } from './Post';
+import { Staff } from './Staff';
+
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
 
 @ObjectType()
 @Entity()
@@ -18,18 +23,44 @@ export class User extends BaseEntity {
   id!: number;
 
   @Field()
-  @Column({ unique: true })
-  username!: string;
+  @Column()
+  role!: UserRole;
 
   @Field()
   @Column({ unique: true })
   email!: string;
 
-  @Column()
+  @Column({ nullable: true })
   password!: string;
 
-  @OneToMany(() => Post, (post) => post.creator)
-  posts: Post[];
+  //Oath info
+  @Column('text', { nullable: true })
+  googleId: string | null;
+
+  @Column('text', { nullable: true })
+  facebookId: string | null;
+
+  @Column('text', { nullable: true })
+  linkedInId: string | null;
+
+  //Stripe and memebership
+  @Field()
+  @Column('text', { default: 'free-trial' })
+  customerType!: string;
+
+  @Column('text', { nullable: true })
+  stripeId: string;
+
+  @Column('text', { nullable: true })
+  stripeSubscriptionId: string;
+
+  @Field()
+  @Column({ nullable: true, default: '' })
+  ccLast4: string;
+
+  //Connections
+  @OneToMany(() => Staff, (staff) => staff.creator)
+  staffs: Staff[];
 
   @Field(() => String)
   @CreateDateColumn()

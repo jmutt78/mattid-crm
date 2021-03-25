@@ -1,0 +1,7 @@
+fragment ProfileUser on User {
+  id
+  email
+  role
+  customerType
+  ccLast4
+}

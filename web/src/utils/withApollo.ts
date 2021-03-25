@@ -1,31 +1,43 @@
-import { createWithApollo } from "./createWithApollo";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { PaginatedPosts } from "../generated/graphql";
-import { NextPageContext } from "next";
+import { PaginatedQuotes, PaginatedSubs } from './../generated/graphql';
+import { createWithApollo } from './createWithApollo';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { NextPageContext } from 'next';
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
     uri: process.env.NEXT_PUBLIC_API_URL as string,
-    credentials: "include",
+    credentials: 'include',
     headers: {
       cookie:
-        (typeof window === "undefined"
+        (typeof window === 'undefined'
           ? ctx?.req?.headers.cookie
-          : undefined) || "",
+          : undefined) || '',
     },
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
           fields: {
-            posts: {
+            subs: {
               keyArgs: [],
               merge(
-                existing: PaginatedPosts | undefined,
-                incoming: PaginatedPosts
-              ): PaginatedPosts {
+                existing: PaginatedSubs | undefined,
+                incoming: PaginatedSubs,
+              ): PaginatedSubs {
                 return {
                   ...incoming,
-                  posts: [...(existing?.posts || []), ...incoming.posts],
+                  subs: [...(existing?.subs || []), ...incoming.subs],
+                };
+              },
+            },
+            quotes: {
+              keyArgs: [],
+              merge(
+                existing: PaginatedQuotes | undefined,
+                incoming: PaginatedQuotes,
+              ): PaginatedQuotes {
+                return {
+                  ...incoming,
+                  quotes: [...(existing?.quotes || []), ...incoming.quotes],
                 };
               },
             },

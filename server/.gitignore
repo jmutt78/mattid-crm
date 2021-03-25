@@ -1,6 +1,5 @@
 dist
 node_modules
-# local env files
-.env.production
-
+# you should add that
 .env
+.env.production

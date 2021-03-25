@@ -1,20 +1,18 @@
-import React, { useState } from "react";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
-import { Wrapper } from "../components/Wrapper";
-import { Formik, Form } from "formik";
-import { InputField } from "../components/InputField";
-import { Box, Button } from "@chakra-ui/core";
-import { useForgotPasswordMutation } from "../generated/graphql";
-import { withApollo } from "../utils/withApollo";
+import React, { useState } from 'react';
+import { Wrapper } from '../components/Wrapper';
+import { Formik, Form } from 'formik';
+import { InputField } from '../components/Inputs/InputField';
+import { Box, Button } from '@chakra-ui/react';
+import { useForgotPasswordMutation } from '../generated/graphql';
+import { withApollo } from '../utils/withApollo';
 
 const ForgotPassword: React.FC<{}> = ({}) => {
   const [complete, setComplete] = useState(false);
   const [forgotPassword] = useForgotPasswordMutation();
   return (
-    <Wrapper variant="small">
+    <Wrapper variant='small'>
       <Formik
-        initialValues={{ email: "" }}
+        initialValues={{ email: '' }}
         onSubmit={async (values) => {
           await forgotPassword({ variables: values });
           setComplete(true);
@@ -28,16 +26,17 @@ const ForgotPassword: React.FC<{}> = ({}) => {
           ) : (
             <Form>
               <InputField
-                name="email"
-                placeholder="email"
-                label="Email"
-                type="email"
+                name='email'
+                placeholder='email'
+                label='Email'
+                type='email'
               />
               <Button
                 mt={4}
-                type="submit"
+                type='submit'
                 isLoading={isSubmitting}
-                variantColor="teal"
+                background='blue'
+                color='white'
               >
                 forgot password
               </Button>
