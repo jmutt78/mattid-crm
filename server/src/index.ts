@@ -1,3 +1,4 @@
+import { StaffGoals } from './entities/StaffGoals';
 import { ApolloServer } from 'apollo-server-express';
 import connectRedis from 'connect-redis';
 import cors from 'cors';
@@ -21,6 +22,7 @@ import { StaffResolver } from './resolvers/staff';
 import { createUserLoader } from './utils/createUserLoader';
 import cookieParser from 'cookie-parser';
 import { StoreGoalResolver } from './resolvers/storeGoal';
+import { StoreGoal } from './entities/StoreGoals';
 
 const main = async () => {
   const conn = await createConnection({
@@ -32,7 +34,7 @@ const main = async () => {
     synchronize: true,
     url: process.env.DATABASE_URL,
     migrations: [path.join(__dirname, './migrations/*')],
-    entities: [Staff, User],
+    entities: [Staff, User, StoreGoal, StaffGoals],
   });
   // await conn.runMigrations();
   // await Sub.delete({});

@@ -9,11 +9,11 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { User } from './User';
+import { Staff } from './Staff';
 
 @ObjectType()
 @Entity()
-export class StoreGoal extends BaseEntity {
+export class StaffGoals extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
@@ -30,8 +30,8 @@ export class StoreGoal extends BaseEntity {
   @Column()
   creatorId: number;
 
-  @ManyToOne(() => User, (user) => user.storeGoals)
-  user: User;
+  @ManyToOne(() => Staff, (staff) => staff.staffGoals)
+  staff: Staff;
 
   @Field(() => String)
   @CreateDateColumn()

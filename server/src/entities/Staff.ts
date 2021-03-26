@@ -1,3 +1,4 @@
+import { StaffGoals } from './StaffGoals';
 import { ObjectType, Field } from 'type-graphql';
 import {
   Entity,
@@ -29,6 +30,9 @@ export class Staff extends BaseEntity {
   @Field()
   @ManyToOne(() => User, (user) => user.staffs)
   creator: User;
+
+  @OneToMany(() => StaffGoals, (staffGoals) => staffGoals.staff)
+  staffGoals: StaffGoals[];
 
   @Field(() => String)
   @CreateDateColumn()

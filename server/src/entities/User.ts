@@ -63,7 +63,7 @@ export class User extends BaseEntity {
   @OneToMany(() => Staff, (staff) => staff.creator)
   staffs: Staff[];
 
-  @OneToMany(() => StoreGoal, (storeGoal) => storeGoal.creator)
+  @OneToMany(() => StoreGoal, (storeGoal) => storeGoal.user)
   storeGoals: StoreGoal[];
 
   @Field(() => String)
