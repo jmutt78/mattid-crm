@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Flex, Icon, Img } from '@chakra-ui/react';
-import { MdHome, MdEmail } from 'react-icons/md';
+import { MdHome, MdPeople } from 'react-icons/md';
 import { ImUsers, ImQuotesRight } from 'react-icons/im';
 
 import ActiveLink from './ActiveLink';
@@ -44,6 +44,10 @@ export const SideBar = () => {
           <ActiveLink href='/'>
             <Icon as={MdHome} mr={2} mb='5px' />
             Dashboards
+          </ActiveLink>
+          <ActiveLink href='/staff'>
+            <Icon as={MdPeople} mr={2} mb='5px' />
+            Staff
           </ActiveLink>
           {quote}
         </Box>

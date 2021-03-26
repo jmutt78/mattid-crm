@@ -1,4 +1,4 @@
-import { PaginatedQuotes, PaginatedSubs } from './../generated/graphql';
+import { PaginatedStaff } from './../generated/graphql';
 import { createWithApollo } from './createWithApollo';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { NextPageContext } from 'next';
@@ -17,27 +17,15 @@ const createClient = (ctx: NextPageContext) =>
       typePolicies: {
         Query: {
           fields: {
-            subs: {
+            staffs: {
               keyArgs: [],
               merge(
-                existing: PaginatedSubs | undefined,
-                incoming: PaginatedSubs,
-              ): PaginatedSubs {
+                existing: PaginatedStaff | undefined,
+                incoming: PaginatedStaff,
+              ): PaginatedStaff {
                 return {
                   ...incoming,
-                  subs: [...(existing?.subs || []), ...incoming.subs],
-                };
-              },
-            },
-            quotes: {
-              keyArgs: [],
-              merge(
-                existing: PaginatedQuotes | undefined,
-                incoming: PaginatedQuotes,
-              ): PaginatedQuotes {
-                return {
-                  ...incoming,
-                  quotes: [...(existing?.quotes || []), ...incoming.quotes],
+                  staffs: [...(existing?.staffs || []), ...incoming.staffs],
                 };
               },
             },
