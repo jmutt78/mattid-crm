@@ -20,6 +20,7 @@ import { UserResolver } from './resolvers/user';
 import { StaffResolver } from './resolvers/staff';
 import { createUserLoader } from './utils/createUserLoader';
 import cookieParser from 'cookie-parser';
+import { StoreGoalResolver } from './resolvers/storeGoal';
 
 const main = async () => {
   const conn = await createConnection({
@@ -348,7 +349,7 @@ const main = async () => {
   //apollo connection
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [StaffResolver, UserResolver],
+      resolvers: [StaffResolver, StoreGoalResolver, UserResolver],
       validate: false,
     }),
     context: ({ req, res }) => ({

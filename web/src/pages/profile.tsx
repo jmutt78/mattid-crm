@@ -36,7 +36,6 @@ const Profile = () => {
     <Layout>
       <Tabs variant='soft-rounded' colorScheme='gray'>
         <TabList>
-          <Tab>User Profile</Tab>
           <Tab>Security</Tab>
           <Tab>Payment</Tab>
           {subChecker && <Tab>Subscription</Tab>}

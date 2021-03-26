@@ -13,21 +13,26 @@ import { User } from './User';
 
 @ObjectType()
 @Entity()
-export class Staff extends BaseEntity {
+export class StoreGoal extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id!: number;
 
+  @Field(() => String)
+  @CreateDateColumn()
+  date: Date;
+
   @Field()
   @Column()
-  name!: string;
+  goal!: string;
 
   @Field()
   @Column()
   creatorId: number;
 
-  @Field()
-  @ManyToOne(() => User, (user) => user.staffs)
+  @ManyToOne(() => User, (user) => user.storeGoals, {
+    onDelete: 'CASCADE',
+  })
   creator: User;
 
   @Field(() => String)

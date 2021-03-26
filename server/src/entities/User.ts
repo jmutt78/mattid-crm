@@ -1,3 +1,4 @@
+import { StoreGoal } from './StoreGoals';
 import { ObjectType, Field } from 'type-graphql';
 import {
   Entity,
@@ -61,6 +62,9 @@ export class User extends BaseEntity {
   //Connections
   @OneToMany(() => Staff, (staff) => staff.creator)
   staffs: Staff[];
+
+  @OneToMany(() => StoreGoal, (storeGoal) => storeGoal.creator)
+  storeGoals: StoreGoal[];
 
   @Field(() => String)
   @CreateDateColumn()
