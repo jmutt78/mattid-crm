@@ -1,0 +1,8 @@
+query Staffs($limit: Int!, $cursor: String) {
+  staffs(limit: $limit, cursor: $cursor) {
+    hasMore
+    staffs {
+      ...StaffSnippet
+    }
+  }
+}

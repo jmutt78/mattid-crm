@@ -1,0 +1,6 @@
+mutation UpdateStaff($id: Int!, $name: String!) {
+  updateStaff(id: $id, name: $name) {
+    id
+    name
+  }
+}

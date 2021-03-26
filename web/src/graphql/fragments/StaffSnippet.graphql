@@ -1,0 +1,9 @@
+fragment StaffSnippet on Staff {
+  id
+  name
+  creator {
+    id
+    email
+  }
+  createdAt
+}

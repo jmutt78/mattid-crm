@@ -1,0 +1,12 @@
+query Staff($id: Int!) {
+  staff(id: $id) {
+    id
+    createdAt
+    updatedAt
+    name
+    creator {
+      id
+      email
+    }
+  }
+}

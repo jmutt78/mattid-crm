@@ -87,14 +87,14 @@ export class StaffResolver {
 
   //+++++++++++++++++Get Staff+++++++++++++++++//
   @Query(() => Staff, { nullable: true })
-  quote(@Arg('id', () => Int) id: number): Promise<Staff | undefined> {
+  staff(@Arg('id', () => Int) id: number): Promise<Staff | undefined> {
     return Staff.findOne(id);
   }
 
   //+++++++++++++++++Create Staff+++++++++++++++++//
   @Mutation(() => StaffResponse)
   @UseMiddleware(isAuth)
-  async createQuote(
+  async createStaff(
     @Arg('input') input: StaffInput,
     @Ctx() { req }: MyContext,
   ): Promise<StaffResponse> {
@@ -114,7 +114,7 @@ export class StaffResolver {
   //+++++++++++++++++Update Staff+++++++++++++++++//
   @Mutation(() => Staff, { nullable: true })
   @UseMiddleware(isAuth)
-  async updateQuote(
+  async updateStaff(
     @Arg('id', () => Int) id: number,
     @Arg('name') name: string,
 
@@ -137,7 +137,7 @@ export class StaffResolver {
   //+++++++++++++++++Delete Staff+++++++++++++++++//
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
-  async deleteQuote(
+  async deleteStaff(
     @Arg('id', () => Int) id: number,
     @Ctx() { req }: MyContext,
   ): Promise<boolean> {

@@ -15,6 +15,19 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  staffs: PaginatedStaff;
+  staff?: Maybe<Staff>;
+};
+
+
+export type QueryStaffsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryStaffArgs = {
+  id: Scalars['Int'];
 };
 
 export type User = {
@@ -24,6 +37,22 @@ export type User = {
   email: Scalars['String'];
   customerType: Scalars['String'];
   ccLast4: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type PaginatedStaff = {
+  __typename?: 'PaginatedStaff';
+  staffs: Array<Staff>;
+  hasMore: Scalars['Boolean'];
+};
+
+export type Staff = {
+  __typename?: 'Staff';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  creatorId: Scalars['Float'];
+  creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -41,6 +70,9 @@ export type Mutation = {
   changeCreditCard: UserResponse;
   cancelSubscription: UserResponse;
   logout: Scalars['Boolean'];
+  createStaff: StaffResponse;
+  updateStaff?: Maybe<Staff>;
+  deleteStaff: Scalars['Boolean'];
 };
 
 
@@ -88,6 +120,22 @@ export type MutationChangeCreditCardArgs = {
   source: Scalars['String'];
 };
 
+
+export type MutationCreateStaffArgs = {
+  input: StaffInput;
+};
+
+
+export type MutationUpdateStaffArgs = {
+  name: Scalars['String'];
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeleteStaffArgs = {
+  id: Scalars['Int'];
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -111,6 +159,16 @@ export type UsernamePasswordInput = {
   password: Scalars['String'];
 };
 
+export type StaffResponse = {
+  __typename?: 'StaffResponse';
+  errors?: Maybe<Array<FieldError>>;
+  staff?: Maybe<Staff>;
+};
+
+export type StaffInput = {
+  name: Scalars['String'];
+};
+
 export type ProfileUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'email' | 'role' | 'customerType' | 'ccLast4'>
@@ -132,9 +190,25 @@ export type RegularErrorFragment = (
   & Pick<FieldError, 'field' | 'message'>
 );
 
+export type RegularStaffFragment = (
+  { __typename?: 'Staff' }
+  & Pick<Staff, 'id'>
+);
+
 export type RegularUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'email' | 'role'>
+);
+
+export type RegularStaffResponseFragment = (
+  { __typename?: 'StaffResponse' }
+  & { errors?: Maybe<Array<(
+    { __typename?: 'FieldError' }
+    & RegularErrorFragment
+  )>>, staff?: Maybe<(
+    { __typename?: 'Staff' }
+    & RegularStaffFragment
+  )> }
 );
 
 export type RegularUserResponseFragment = (
@@ -146,6 +220,15 @@ export type RegularUserResponseFragment = (
     { __typename?: 'User' }
     & RegularUserFragment
   )> }
+);
+
+export type StaffSnippetFragment = (
+  { __typename?: 'Staff' }
+  & Pick<Staff, 'id' | 'name' | 'createdAt'>
+  & { creator: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email'>
+  ) }
 );
 
 export type CancelSubscriptionMutationVariables = Exact<{ [key: string]: never; }>;
@@ -187,6 +270,19 @@ export type ChangePasswordMutation = (
   ) }
 );
 
+export type CreateStaffMutationVariables = Exact<{
+  input: StaffInput;
+}>;
+
+
+export type CreateStaffMutation = (
+  { __typename?: 'Mutation' }
+  & { createStaff: (
+    { __typename?: 'StaffResponse' }
+    & RegularStaffResponseFragment
+  ) }
+);
+
 export type CreateSubscriptionMutationVariables = Exact<{
   source: Scalars['String'];
   ccLast4: Scalars['String'];
@@ -199,6 +295,16 @@ export type CreateSubscriptionMutation = (
     { __typename?: 'UserResponse' }
     & ProfileUserResponseFragment
   ) }
+);
+
+export type DeleteStaffMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteStaffMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteStaff'>
 );
 
 export type ForgotPasswordMutationVariables = Exact<{
@@ -271,6 +377,20 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UpdateStaffMutationVariables = Exact<{
+  id: Scalars['Int'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdateStaffMutation = (
+  { __typename?: 'Mutation' }
+  & { updateStaff?: Maybe<(
+    { __typename?: 'Staff' }
+    & Pick<Staff, 'id' | 'name'>
+  )> }
+);
+
 export type UpdateUserAuthMutationVariables = Exact<{
   input: UserAuthInput;
 }>;
@@ -306,6 +426,41 @@ export type ProfileQuery = (
   )> }
 );
 
+export type StaffQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type StaffQuery = (
+  { __typename?: 'Query' }
+  & { staff?: Maybe<(
+    { __typename?: 'Staff' }
+    & Pick<Staff, 'id' | 'createdAt' | 'updatedAt' | 'name'>
+    & { creator: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email'>
+    ) }
+  )> }
+);
+
+export type StaffsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type StaffsQuery = (
+  { __typename?: 'Query' }
+  & { staffs: (
+    { __typename?: 'PaginatedStaff' }
+    & Pick<PaginatedStaff, 'hasMore'>
+    & { staffs: Array<(
+      { __typename?: 'Staff' }
+      & StaffSnippetFragment
+    )> }
+  ) }
+);
+
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
   field
@@ -332,6 +487,22 @@ export const ProfileUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${ProfileUserFragmentDoc}`;
+export const RegularStaffFragmentDoc = gql`
+    fragment RegularStaff on Staff {
+  id
+}
+    `;
+export const RegularStaffResponseFragmentDoc = gql`
+    fragment RegularStaffResponse on StaffResponse {
+  errors {
+    ...RegularError
+  }
+  staff {
+    ...RegularStaff
+  }
+}
+    ${RegularErrorFragmentDoc}
+${RegularStaffFragmentDoc}`;
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
@@ -350,6 +521,17 @@ export const RegularUserResponseFragmentDoc = gql`
 }
     ${RegularErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const StaffSnippetFragmentDoc = gql`
+    fragment StaffSnippet on Staff {
+  id
+  name
+  creator {
+    id
+    email
+  }
+  createdAt
+}
+    `;
 export const CancelSubscriptionDocument = gql`
     mutation CancelSubscription {
   cancelSubscription {
@@ -450,6 +632,39 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const CreateStaffDocument = gql`
+    mutation CreateStaff($input: StaffInput!) {
+  createStaff(input: $input) {
+    ...RegularStaffResponse
+  }
+}
+    ${RegularStaffResponseFragmentDoc}`;
+export type CreateStaffMutationFn = Apollo.MutationFunction<CreateStaffMutation, CreateStaffMutationVariables>;
+
+/**
+ * __useCreateStaffMutation__
+ *
+ * To run a mutation, you first call `useCreateStaffMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateStaffMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createStaffMutation, { data, loading, error }] = useCreateStaffMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateStaffMutation(baseOptions?: Apollo.MutationHookOptions<CreateStaffMutation, CreateStaffMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateStaffMutation, CreateStaffMutationVariables>(CreateStaffDocument, options);
+      }
+export type CreateStaffMutationHookResult = ReturnType<typeof useCreateStaffMutation>;
+export type CreateStaffMutationResult = Apollo.MutationResult<CreateStaffMutation>;
+export type CreateStaffMutationOptions = Apollo.BaseMutationOptions<CreateStaffMutation, CreateStaffMutationVariables>;
 export const CreateSubscriptionDocument = gql`
     mutation CreateSubscription($source: String!, $ccLast4: String!) {
   createSubscription(source: $source, ccLast4: $ccLast4) {
@@ -484,6 +699,37 @@ export function useCreateSubscriptionMutation(baseOptions?: Apollo.MutationHookO
 export type CreateSubscriptionMutationHookResult = ReturnType<typeof useCreateSubscriptionMutation>;
 export type CreateSubscriptionMutationResult = Apollo.MutationResult<CreateSubscriptionMutation>;
 export type CreateSubscriptionMutationOptions = Apollo.BaseMutationOptions<CreateSubscriptionMutation, CreateSubscriptionMutationVariables>;
+export const DeleteStaffDocument = gql`
+    mutation DeleteStaff($id: Int!) {
+  deleteStaff(id: $id)
+}
+    `;
+export type DeleteStaffMutationFn = Apollo.MutationFunction<DeleteStaffMutation, DeleteStaffMutationVariables>;
+
+/**
+ * __useDeleteStaffMutation__
+ *
+ * To run a mutation, you first call `useDeleteStaffMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteStaffMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteStaffMutation, { data, loading, error }] = useDeleteStaffMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteStaffMutation(baseOptions?: Apollo.MutationHookOptions<DeleteStaffMutation, DeleteStaffMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteStaffMutation, DeleteStaffMutationVariables>(DeleteStaffDocument, options);
+      }
+export type DeleteStaffMutationHookResult = ReturnType<typeof useDeleteStaffMutation>;
+export type DeleteStaffMutationResult = Apollo.MutationResult<DeleteStaffMutation>;
+export type DeleteStaffMutationOptions = Apollo.BaseMutationOptions<DeleteStaffMutation, DeleteStaffMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -678,6 +924,41 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateStaffDocument = gql`
+    mutation UpdateStaff($id: Int!, $name: String!) {
+  updateStaff(id: $id, name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type UpdateStaffMutationFn = Apollo.MutationFunction<UpdateStaffMutation, UpdateStaffMutationVariables>;
+
+/**
+ * __useUpdateStaffMutation__
+ *
+ * To run a mutation, you first call `useUpdateStaffMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateStaffMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateStaffMutation, { data, loading, error }] = useUpdateStaffMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useUpdateStaffMutation(baseOptions?: Apollo.MutationHookOptions<UpdateStaffMutation, UpdateStaffMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateStaffMutation, UpdateStaffMutationVariables>(UpdateStaffDocument, options);
+      }
+export type UpdateStaffMutationHookResult = ReturnType<typeof useUpdateStaffMutation>;
+export type UpdateStaffMutationResult = Apollo.MutationResult<UpdateStaffMutation>;
+export type UpdateStaffMutationOptions = Apollo.BaseMutationOptions<UpdateStaffMutation, UpdateStaffMutationVariables>;
 export const UpdateUserAuthDocument = gql`
     mutation UpdateUserAuth($input: UserAuthInput!) {
   updateAuth(input: $input) {
@@ -779,3 +1060,84 @@ export function useProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pr
 export type ProfileQueryHookResult = ReturnType<typeof useProfileQuery>;
 export type ProfileLazyQueryHookResult = ReturnType<typeof useProfileLazyQuery>;
 export type ProfileQueryResult = Apollo.QueryResult<ProfileQuery, ProfileQueryVariables>;
+export const StaffDocument = gql`
+    query Staff($id: Int!) {
+  staff(id: $id) {
+    id
+    createdAt
+    updatedAt
+    name
+    creator {
+      id
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useStaffQuery__
+ *
+ * To run a query within a React component, call `useStaffQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStaffQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStaffQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useStaffQuery(baseOptions: Apollo.QueryHookOptions<StaffQuery, StaffQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<StaffQuery, StaffQueryVariables>(StaffDocument, options);
+      }
+export function useStaffLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StaffQuery, StaffQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<StaffQuery, StaffQueryVariables>(StaffDocument, options);
+        }
+export type StaffQueryHookResult = ReturnType<typeof useStaffQuery>;
+export type StaffLazyQueryHookResult = ReturnType<typeof useStaffLazyQuery>;
+export type StaffQueryResult = Apollo.QueryResult<StaffQuery, StaffQueryVariables>;
+export const StaffsDocument = gql`
+    query Staffs($limit: Int!, $cursor: String) {
+  staffs(limit: $limit, cursor: $cursor) {
+    hasMore
+    staffs {
+      ...StaffSnippet
+    }
+  }
+}
+    ${StaffSnippetFragmentDoc}`;
+
+/**
+ * __useStaffsQuery__
+ *
+ * To run a query within a React component, call `useStaffsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStaffsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStaffsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useStaffsQuery(baseOptions: Apollo.QueryHookOptions<StaffsQuery, StaffsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<StaffsQuery, StaffsQueryVariables>(StaffsDocument, options);
+      }
+export function useStaffsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StaffsQuery, StaffsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<StaffsQuery, StaffsQueryVariables>(StaffsDocument, options);
+        }
+export type StaffsQueryHookResult = ReturnType<typeof useStaffsQuery>;
+export type StaffsLazyQueryHookResult = ReturnType<typeof useStaffsLazyQuery>;
+export type StaffsQueryResult = Apollo.QueryResult<StaffsQuery, StaffsQueryVariables>;

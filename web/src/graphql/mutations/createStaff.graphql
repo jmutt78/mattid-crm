@@ -1,0 +1,5 @@
+mutation CreateStaff($input: StaffInput!) {
+  createStaff(input: $input) {
+    ...RegularStaffResponse
+  }
+}
