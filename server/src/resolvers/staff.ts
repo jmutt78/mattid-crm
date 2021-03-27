@@ -60,9 +60,9 @@ export class StaffResolver {
   ): Promise<PaginatedStaff> {
     const realLimit = Math.min(50, limit);
     const reaLimitPlusOne = realLimit + 1;
-    const userId = req.session.userId;
-    const replacements: any[] = [reaLimitPlusOne];
 
+    const replacements: any[] = [reaLimitPlusOne];
+    const userId = await req.session.userId;
     if (cursor) {
       replacements.push(new Date(parseInt(cursor)));
     }

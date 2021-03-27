@@ -19,7 +19,7 @@ export class StoreGoal extends BaseEntity {
   id!: number;
 
   @Field(() => String)
-  @CreateDateColumn()
+  @Column()
   date: Date;
 
   @Field()

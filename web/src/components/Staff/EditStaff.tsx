@@ -31,7 +31,7 @@ const EditStaff: React.FC<EditQuoteProps> = ({ id, name }) => {
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit quote</ModalHeader>
+          <ModalHeader>Edit Staff</ModalHeader>
           <ModalCloseButton />
           <Formik
             initialValues={{ name }}
@@ -59,7 +59,7 @@ const EditStaff: React.FC<EditQuoteProps> = ({ id, name }) => {
                     background='blue'
                     color='white'
                   >
-                    update quote
+                    update staff
                   </Button>
 
                   <Button onClick={onClose}>Cancel</Button>

@@ -31,13 +31,13 @@ const CreateQuote: React.FC<{}> = ({}) => {
           <ModalHeader>Create a Staff</ModalHeader>
 
           <Formik
-            initialValues={{ name: '', catagory: '' }}
+            initialValues={{ name: '' }}
             onSubmit={async (values, { setErrors }) => {
               const response = await createStaff({
                 variables: { input: values },
                 update: (cache, { data }) => {
                   if (!data?.createStaff.errors) {
-                    cache.evict({ fieldName: 'quotes:{}' });
+                    cache.evict({ fieldName: 'staffs:{}' });
                   }
                 },
               });

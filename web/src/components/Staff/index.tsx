@@ -48,7 +48,6 @@ const Staffs = () => {
             <Thead>
               <Tr>
                 <Th>Name</Th>
-                <Th>Created By</Th>
                 <Th></Th>
                 <Th></Th>
               </Tr>

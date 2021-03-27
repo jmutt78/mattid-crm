@@ -38,7 +38,7 @@ export const DeleteStaffButton: React.FC<DeleteStaffButtonProps> = ({
       <Box>
         <IconButton
           icon={<DeleteIcon />}
-          aria-label='Delete Subcriber'
+          aria-label='Delete Staff'
           onClick={() => setIsOpen(true)}
         />
       </Box>

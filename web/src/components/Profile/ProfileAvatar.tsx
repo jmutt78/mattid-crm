@@ -28,7 +28,7 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ email }) => {
     <Box mx='auto'>
       <Menu>
         <MenuButton>
-          <Avatar name={email} bg='yellow' />
+          <Avatar name={email} bg='teal' />
         </MenuButton>
         <MenuList>
           <MenuItem>
